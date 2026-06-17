@@ -11,13 +11,17 @@ st.set_page_config(
 )
 
 # ─── Initialize Anthropic Client ────────────────────────────────
-try:
-    client = anthropic.Anthropic(
-        api_key=st.secrets["ANTHROPIC_API_KEY"]
+required_keys = ["ANTHROPIC_API_KEY"]
+missing = [k for k in required_keys if k not in st.secrets]
+if missing:
+    st.error(
+        f"Missing secret(s): {', '.join(missing)}. "
+        "Add them in Streamlit Cloud → Settings → Secrets "
+        "(or .streamlit/secrets.toml when running locally)."
     )
-except Exception:
-    st.error("API key not found. Check .streamlit/secrets.toml")
     st.stop()
+
+client = Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 
 # ─── Load Backlog CSV ────────────────────────────────────────────
 @st.cache_data
