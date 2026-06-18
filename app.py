@@ -21,7 +21,7 @@ if missing:
     )
     st.stop()
 
-client = anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
+client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 
 # ─── Load Backlog CSV ────────────────────────────────────────────
 @st.cache_data
